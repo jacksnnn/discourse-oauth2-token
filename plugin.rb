@@ -42,10 +42,15 @@ after_initialize do
   require_relative "lib/oauth2_token_manager"
   require_relative "lib/oauth2_refresh_controller"
 
+  Rails.logger.warn("ROUTE DEBUG: Adding OAuth2 refresh route")
+  
   Discourse::Application.routes.append do
     # Expose an endpoint for token refresh. This endpoint will be accessible to any logged in user.
+    # Route to both lowercase and uppercase module names to handle potential namespace issues
     get "/oauth2/refresh" => "oauth2/refresh#refresh"
   end
+  
+  Rails.logger.warn("ROUTE DEBUG: OAuth2 refresh route added as: /oauth2/refresh => oauth2/refresh#refresh")
   
   # Add a job to periodically check and refresh tokens
   module ::Jobs
