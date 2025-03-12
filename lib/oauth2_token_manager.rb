@@ -59,8 +59,8 @@ class OAuth2TokenManager
     expires_at = user.custom_fields["oauth2_token_expires_at"].to_i
     return true if expires_at.zero?
     
-    # Consider the token expired if it expires in less than 5 minutes
-    expires_at < Time.now.to_i + 5.minutes.to_i
+    # Consider the token expired if it expires in less than 30 minutes
+    expires_at < Time.now.to_i + 30.minutes.to_i
   end
   
   def self.get_token(user)

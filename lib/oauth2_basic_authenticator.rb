@@ -130,7 +130,7 @@ class OAuth2BasicAuthenticator < Auth::ManagedAuthenticator
         if !escaped && (char == '"')
           quoted = !quoted
         elsif !escaped && !quoted && (char == ".")
-          segments.append +""
+          segments.append + ""
         elsif !escaped && (char == '\\')
           next_char_escaped = true
         else

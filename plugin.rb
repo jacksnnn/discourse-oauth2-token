@@ -40,6 +40,12 @@ after_initialize do
   
   # Add a middleware to handle token refreshes
   require_relative "lib/oauth2_token_manager"
+  require_relative "lib/oauth2_refresh_controller"
+
+  Discourse::Application.routes.append do
+    # Expose an endpoint for token refresh. This endpoint will be accessible to any logged in user.
+    get "/oauth2/refresh" => "oauth2/refresh#refresh"
+  end
   
   # Add a job to periodically check and refresh tokens
   module ::Jobs
@@ -58,7 +64,7 @@ after_initialize do
           
           # Skip if no refresh token
           refresh_token = user.custom_fields["oauth2_refresh_token"]
-          next unless refresh_token.present?
+          next if refresh_token.blank?
           
           # Refresh the token
           begin
